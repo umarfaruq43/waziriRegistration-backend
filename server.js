@@ -40,6 +40,11 @@ app.post("/api/register", (req, res) => {
 app.get("/api/teams", (req, res) => {
     res.json(registrations);
 });
+// keep alive endpoint
+
+app.get("/ping", (req, res) => {
+    res.status(200).send("pong");
+});
 
 // Start the server
 app.listen(PORT, () => {

@@ -45,34 +45,37 @@ mongoose
 //         data: newRegistration,
 //     });
 // });
+
 app.post("/api/register", async (req, res) => {
     try {
         const data = req.body;
+        console.log("📥 Incoming data:", data);
 
-        // Validate required fields
         if (!data.teamName || !data.teamManager || !data.players) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        const registrationId =
+            data.registrationId ||
+            `WC2025-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
         const newRegistration = new Registration({
-            registrationId: `WC2025-${Math.random()
-                .toString(36)
-                .substr(2, 6)
-                .toUpperCase()}`,
-            registrationDate: new Date().toISOString(),
             ...data,
+            registrationId,
         });
 
-        const saved = await newRegistration.save();
+        await newRegistration.save();
+
         res.status(201).json({
-            message: "Registration successful",
-            data: saved,
+            message: "✅ Registration saved successfully!",
+            data: newRegistration,
         });
-    } catch (err) {
-        console.error("Error saving registration:", err);
-        res.status(500).json({ message: "Server error" });
+    } catch (error) {
+        console.error("❌ Error saving registration:", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 });
+
 // GET endpoint - to fetch all teams
 // app.get("/api/teams", (req, res) => {
 //     res.json(registrations);

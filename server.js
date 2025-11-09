@@ -15,12 +15,30 @@ const Registration = require("./models/Registration.ts");
 
 // "mongodb+srv://abdulazeezfaruq43_db_user:9pHIWFGU2Kthqx7D@waziri.9k7im9c.mongodb.net/?appName=waziri"
 
-mongoose
-    .connect(
-        "mongodb+srv://abdulazeezfaruq43_db_user:9pHIWFGU2Kthqx7D@waziri.9k7im9c.mongodb.net/waziri?appName=waziri"
-    )
-    .then(() => console.log("✅ MongoDB connected"))
-    .catch((err) => console.error("❌ MongoDB connection error:", err));
+// mongoose
+//     .connect(
+//         "mongodb+srv://abdulazeezfaruq43_db_user:9pHIWFGU2Kthqx7D@waziri.9k7im9c.mongodb.net/waziri?appName=waziri"
+//     )
+//     .then(() => console.log("✅ MongoDB connected"))
+//     .catch((err) => console.error("❌ MongoDB connection error:", err));
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(
+            "mongodb+srv://abdulazeezfaruq43_db_user:9pHIWFGU2Kthqx7D@waziri.9k7im9c.mongodb.net/waziri?appName=waziri",
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }
+        );
+        console.log("MongoDB connected ✅");
+    } catch (err) {
+        console.error("MongoDB connection error ❌", err);
+        process.exit(1); // stops the app if DB is unreachable
+    }
+};
+
+connectDB()
 
 // POST endpoint - to register a new team
 // app.post("/api/register", (req, res) => {

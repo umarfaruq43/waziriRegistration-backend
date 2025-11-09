@@ -14,6 +14,7 @@ app.use(express.json());
 const Registration = require("./models/Registration.ts");
 
 // "mongodb+srv://abdulazeezfaruq43_db_user:9pHIWFGU2Kthqx7D@waziri.9k7im9c.mongodb.net/?appName=waziri"
+
 mongoose
     .connect(
         "mongodb+srv://abdulazeezfaruq43_db_user:9pHIWFGU2Kthqx7D@waziri.9k7im9c.mongodb.net/waziri?appName=waziri"
@@ -95,6 +96,13 @@ app.get("/api/teams", async (req, res) => {
 app.get("/ping", (req, res) => {
     res.status(200).send("pong");
 });
+
+app.use(
+    cors({
+        origin: ["http://localhost:5173", "https://waziriv2-avok.vercel.app"],
+        credentials: true,
+    })
+);
 
 // Start the server
 app.listen(PORT, () => {
